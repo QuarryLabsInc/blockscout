@@ -109,8 +109,8 @@ config :block_scout_web, BlockScoutWeb.HealthEndpoint,
   pubsub_server: BlockScoutWeb.PubSub
 
 config :block_scout_web, BlockScoutWeb.Chain,
-  network: System.get_env("NETWORK"),
-  subnetwork: System.get_env("SUBNETWORK"),
+  network: System.get_env("NETWORK", "QuarryChain"),
+  subnetwork: System.get_env("SUBNETWORK", "QuarryChain"),
   network_icon: System.get_env("NETWORK_ICON"),
   logo: System.get_env("LOGO"),
   logo_text: System.get_env("LOGO_TEXT"),

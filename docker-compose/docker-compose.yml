@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   redis-db:
     extends:
@@ -26,18 +24,23 @@ services:
     extends:
       file: ./services/backend.yml
       service: backend
+    image: blockscout-backend:local
+    pull_policy: never
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
       args:
-        RELEASE_VERSION: 9.0.2
+        RELEASE_VERSION: 9.3.2
     links:
       - db:database
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
     environment:
-        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8545/
-        CHAIN_ID: '1337'
+      ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8540/
+      ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8540/
+      ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8640/
+      CHAIN_ID: '9001'
 
   nft_media_handler:
     depends_on:
@@ -45,11 +48,14 @@ services:
     extends:
       file: ./services/nft_media_handler.yml
       service: nft_media_handler
+    image: blockscout-backend:local
+    pull_policy: never
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
       args:
-        RELEASE_VERSION: 9.0.2
+        RELEASE_VERSION: 9.3.2
+    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && bin/blockscout start"
 
   visualizer:
     extends:

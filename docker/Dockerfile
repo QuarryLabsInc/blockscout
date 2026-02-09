@@ -16,6 +16,9 @@ COPY apps/nft_media_handler/mix.exs ./apps/nft_media_handler/
 
 ENV MIX_ENV="prod"
 ENV MIX_HOME=/opt/mix
+# Avoid Hex/network timeouts during deps fetch (especially in Docker/build environments)
+ENV HEX_HTTP_TIMEOUT=120
+ENV HEX_HTTP_CONCURRENCY=4
 RUN mix local.hex --force
 RUN MIX_OS_DEPS_COMPILE_PARTITION_COUNT=$(nproc) mix do deps.get + local.rebar --force + deps.compile --skip-umbrella-children
 
@@ -89,6 +92,11 @@ ENV BLOCKSCOUT_VERSION=${BLOCKSCOUT_VERSION}
 COPY --from=builder --chown=${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /opt/release/blockscout .
 COPY --from=builder --chown=${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /app/config/config_helper.exs ./config/config_helper.exs
 COPY --from=builder --chown=${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /app/config/config_helper.exs /app/releases/${RELEASE_VERSION}/config_helper.exs
+# Also copy to 9.3.2 directory if release version differs (for compatibility)
+RUN if [ "${RELEASE_VERSION}" != "9.3.2" ] && [ -d "/app/releases/9.3.2" ]; then \
+      cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs && \
+      chown ${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /app/releases/9.3.2/config_helper.exs; \
+    fi
 COPY --from=builder --chown=${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /app/config/assets/precompiles-arbitrum.json ./config/assets/precompiles-arbitrum.json
 
 RUN mkdir dets && mkdir temp && chown -R ${BLOCKSCOUT_USER}:${BLOCKSCOUT_GROUP} /app

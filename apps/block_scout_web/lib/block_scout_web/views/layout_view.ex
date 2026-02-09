@@ -77,7 +77,7 @@ defmodule BlockScoutWeb.LayoutView do
       "elixir-version": "Elixir #{System.version()} Erlang/OTP #{System.otp_release()}",
       "os-version": "#{os_family} #{os_name}",
       "archive-node-type": Variant.get(),
-      "additional-information": "The issue happened at #{subnetwork_title()} Blockscout instance"
+      "additional-information": "The issue happened at #{subnetwork_title()} QuarryChain Explorer instance"
     ]
 
     issue_url = "#{Application.get_env(:block_scout_web, :footer)[:github_link]}/issues/new"

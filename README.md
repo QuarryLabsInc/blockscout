@@ -1,5 +1,5 @@
-<h1 align="center">Blockscout</h1>
-<p align="center">Blockchain Explorer for inspecting and analyzing EVM Chains.</p>
+<h1 align="center">Quarrychain Explorer</h1>
+<p align="center">Blockchain Explorer for Quarrychain - Forked from Blockscout</p>
 <div align="center">
 
 [![Blockscout](https://github.com/blockscout/blockscout/actions/workflows/config.yml/badge.svg)](https://github.com/blockscout/blockscout/actions)
