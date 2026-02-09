@@ -35,7 +35,9 @@ services:
       - db:database
     extra_hosts:
       - 'host.docker.internal:host-gateway'
-    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && mkdir -p /app/lib/block_scout_web-9.3.2/priv/static/images && cp /tmp/blockscout_logo.svg /app/lib/block_scout_web-9.3.2/priv/static/images/blockscout_logo.svg 2>/dev/null || true && bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    volumes:
+      - "../apps/block_scout_web/assets/static/images/blockscout_logo.svg:/tmp/blockscout_logo.svg:ro"
     environment:
       ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8540/
       ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8540/
@@ -73,6 +75,10 @@ services:
     extends:
       file: ./services/frontend.yml
       service: frontend
+    environment:
+      # Full URL so entrypoint can download logo to /assets/configs/; client uses that path, not this URL
+      NEXT_PUBLIC_NETWORK_LOGO: http://backend:4000/images/blockscout_logo.svg
+      NEXT_PUBLIC_NETWORK_ICON: http://backend:4000/images/blockscout_logo.svg
 
   stats-db-init:
     extends:

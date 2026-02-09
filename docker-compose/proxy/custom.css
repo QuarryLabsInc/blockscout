@@ -1,0 +1,20 @@
+/* QuarryChain: parent link – size container for 80px logo */
+header a[href="/"][aria-label="Link to main page"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 80px !important;
+  height: 80px !important;
+  gap: 0.5rem !important;
+}
+
+/* QuarryChain: logo/icon images */
+header a[href="/"] img.chakra-image,
+header img[src="/assets/configs/network_logo.svg"],
+header img[src="/assets/configs/network_icon.svg"],
+header img[alt="QuarryChain network logo"],
+header img[alt="QuarryChain network icon"] {
+  height: 80px !important;
+  max-height: 80px !important;
+  width: auto !important;
+  object-fit: contain !important;
+}

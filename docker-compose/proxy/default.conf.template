@@ -9,7 +9,7 @@ server {
     server_name  localhost;
     proxy_http_version 1.1;
 
-    location ~ ^/(api(?!-docs$)|socket|sitemap.xml|auth/auth0|auth/auth0/callback|auth/logout) {
+    location ~ ^/(api(?!-docs$)|socket|sitemap.xml|auth/auth0|auth/auth0/callback|auth/logout|images/) {
         proxy_pass            ${BACK_PROXY_PASS};
         proxy_http_version    1.1;
         proxy_set_header      Host "$host";
@@ -19,6 +19,9 @@ server {
         proxy_set_header      Upgrade "$http_upgrade";
         proxy_set_header      Connection $connection_upgrade;
         proxy_cache_bypass    $http_upgrade;
+    }
+    location = /custom.css {
+        alias /etc/nginx/templates/custom.css;
     }
     location / {
         proxy_pass            ${FRONT_PROXY_PASS};
@@ -30,6 +33,14 @@ server {
         proxy_set_header      Upgrade "$http_upgrade";
         proxy_set_header      Connection $connection_upgrade;
         proxy_cache_bypass    $http_upgrade;
+        proxy_set_header      Accept-Encoding "";
+        proxy_buffering       on;
+        proxy_buffer_size     128k;
+        proxy_buffers         4 256k;
+        proxy_busy_buffers_size 256k;
+        sub_filter '</body>' '<link rel="stylesheet" href="/custom.css"></body>';
+        sub_filter_once on;
+        sub_filter_types text/html;
     }
 }
 server {
