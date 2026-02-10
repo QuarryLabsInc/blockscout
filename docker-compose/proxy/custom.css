@@ -5,6 +5,7 @@ header a[href="/"][aria-label="Link to main page"] {
   min-height: 80px !important;
   height: 80px !important;
   gap: 0.5rem !important;
+  margin: 0 auto;
 }
 
 /* QuarryChain: logo/icon images */
@@ -18,3 +19,40 @@ header img[alt="QuarryChain network icon"] {
   width: auto !important;
   object-fit: contain !important;
 }
+
+/* QuarryChain: hide all iframe ads in header/banner */
+header iframe,
+header .ad-container,
+header .coinzilla,
+header [class*="ad"],
+header [id*="ad"],
+iframe[src*="coinzilla"],
+iframe[src*="ad"],
+iframe[src*="ads"],
+iframe[src*="advertisement"],
+.coinzilla,
+.ad-container {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+}
+
+/* QuarryChain: hide Slise ads (adsbyslise) */
+.adsbyslise,
+ins.adsbyslise,
+ins[data-ad-slot],
+ins[data-ad-pub],
+iframe[src*="slise.xyz"],
+.chakra-skeleton [class*="css-u45bp0"],
+.chakra-skeleton ins {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
