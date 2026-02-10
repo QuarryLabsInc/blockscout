@@ -5,4 +5,4 @@ For usage instructions and ENV variables, see the [docker integration documentat
 **Compose file location:** The stack is defined in `../docker-compose/`. Do not run `docker compose` from this `docker/` folder.
 
 - **Start explorer:** from repo root run `./start-explorer.sh`
-- **Stop explorer:** from this folder run `./stop-explorer.sh`, or from repo root run `cd docker-compose && docker compose down`
+- **Stop explorer:** from repo root run `./stop-explorer.sh`, or manually run `cd docker-compose && docker compose down`
