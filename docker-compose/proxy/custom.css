@@ -20,6 +20,18 @@ header img[alt="QuarryChain network icon"] {
   object-fit: contain !important;
 }
 
+/* QuarryChain: hide testnet logo */
+img[src*="testnet.svg"],
+img[src="/static/labels/testnet.svg"],
+.css-1o1cinb[src*="testnet"],
+[class*="testnet"] img[src*="testnet"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+}
+
 /* QuarryChain: hide all iframe ads in header/banner */
 header iframe,
 header .ad-container,
