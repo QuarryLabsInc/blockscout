@@ -117,3 +117,7 @@ services:
     extends:
       file: ./services/nginx.yml
       service: proxy
+    volumes:
+      - ./proxy:/etc/nginx/templates:ro
+      - ./proxy/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+      - ./proxy/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
