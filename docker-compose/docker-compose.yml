@@ -117,11 +117,6 @@ services:
     extends:
       file: ./services/nginx.yml
       service: proxy
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-      - "8081:8081"
     volumes:
       - ./proxy:/etc/nginx/templates:ro
       - ./proxy/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro

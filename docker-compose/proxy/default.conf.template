@@ -57,7 +57,6 @@ server {
         proxy_busy_buffers_size 256k;
         sub_filter '</body>' '<link rel="stylesheet" href="/custom.css"></body>';
         sub_filter_once on;
-        sub_filter_types text/html;
     }
 }
 server {
@@ -102,7 +101,6 @@ server {
         proxy_busy_buffers_size 256k;
         sub_filter '</body>' '<link rel="stylesheet" href="/custom.css"></body>';
         sub_filter_once on;
-        # sub_filter_types text/html; (omitted to avoid duplicate MIME warning; default is text/html)
     }
 }
 server {
