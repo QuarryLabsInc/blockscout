@@ -1,3 +1,6 @@
+# Docker DNS: resolve upstreams at request time (avoids "host not found" on startup)
+resolver 127.0.0.11 valid=10s;
+
 map $http_upgrade $connection_upgrade {
 
   default upgrade;
@@ -19,7 +22,8 @@ server {
     proxy_http_version 1.1;
 
     location ~ ^/(api(?!-docs$)|socket|sitemap.xml|auth/auth0|auth/auth0/callback|auth/logout|images/) {
-        proxy_pass            ${BACK_PROXY_PASS};
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass            $backend_upstream;
         proxy_http_version    1.1;
         proxy_set_header      Host "$host";
         proxy_set_header      X-Real-IP "$remote_addr";
@@ -35,7 +39,8 @@ server {
     }
     
     location / {
-        proxy_pass            ${FRONT_PROXY_PASS};
+        set $frontend_upstream ${FRONT_PROXY_PASS};
+        proxy_pass            $frontend_upstream;
         proxy_http_version    1.1;
         proxy_set_header      Host "$host";
         proxy_set_header      X-Real-IP "$remote_addr";
@@ -64,7 +69,8 @@ server {
     proxy_http_version 1.1;
 
     location ~ ^/(api(?!-docs$)|socket|sitemap.xml|auth/auth0|auth/auth0/callback|auth/logout|images/) {
-        proxy_pass            ${BACK_PROXY_PASS};
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass            $backend_upstream;
         proxy_http_version    1.1;
         proxy_set_header      Host "$host";
         proxy_set_header      X-Real-IP "$remote_addr";
@@ -78,7 +84,8 @@ server {
         alias /etc/nginx/templates/custom.css;
     }
     location / {
-        proxy_pass            ${FRONT_PROXY_PASS};
+        set $frontend_upstream ${FRONT_PROXY_PASS};
+        proxy_pass            $frontend_upstream;
         proxy_http_version    1.1;
         proxy_set_header      Host "$host";
         proxy_set_header      X-Real-IP "$remote_addr";
