@@ -34,6 +34,17 @@ server {
         proxy_set_header      Connection $connection_upgrade;
         proxy_cache_bypass    $http_upgrade;
     }
+    # Frontend requests these by name; serve backend logo
+    location = /network_logo.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
+    }
+    location = /network_icon.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
+    }
     
     location = /custom.css {
         alias /etc/nginx/templates/custom.css;
@@ -79,6 +90,16 @@ server {
         proxy_set_header      Upgrade "$http_upgrade";
         proxy_set_header      Connection $connection_upgrade;
         proxy_cache_bypass    $http_upgrade;
+    }
+    location = /network_logo.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
+    }
+    location = /network_icon.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
     }
     location = /custom.css {
         alias /etc/nginx/templates/custom.css;
