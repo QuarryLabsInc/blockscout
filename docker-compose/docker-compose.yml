@@ -39,9 +39,10 @@ services:
     volumes:
       - "../apps/block_scout_web/assets/static/images/blockscout_logo.svg:/tmp/blockscout_logo.svg:ro"
     environment:
-      ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8540/
-      ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8540/
-      ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8640/
+      # Use host gateway IP so backend can reach Evmos on host (host.docker.internal often fails on Linux)
+      ETHEREUM_JSONRPC_HTTP_URL: http://172.17.0.1:8540/
+      ETHEREUM_JSONRPC_TRACE_URL: http://172.17.0.1:8540/
+      ETHEREUM_JSONRPC_WS_URL: ws://172.17.0.1:8640/
       CHAIN_ID: '9001'
 
   nft_media_handler:
