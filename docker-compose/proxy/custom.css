@@ -68,3 +68,35 @@ iframe[src*="slise.xyz"],
   left: -9999px !important;
 }
 
+/* QuarryChain: Custom Footer Branding */
+
+/* Hide the first .css-0 (Blockscout branding) that follows .css-1fewije */
+footer .css-1469qes > div:first-child > .css-1fewije + .css-0,
+footer .css-1469qes .css-x56gql .css-0:first-of-type  {
+  display: none !important;
+}
+
+/* Style the second .css-0 (the one after the hidden one) */
+footer .css-1469qes > div:first-child > .css-1fewije + .css-0 + .css-0 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+/* Inject "QuarryChain" title into the second .css-0 */
+footer .css-1469qes > div:first-child > .css-1fewije + .css-0 + .css-0::before {
+  content: "QuarryChain" !important;
+  display: block !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: inherit !important;
+}
+
+/* Inject description into the second .css-0 */
+footer .css-1469qes > div:first-child > .css-1fewije + .css-0 + .css-0::after {
+  content: "Blockchain Explorer for QuarryChain Networks." !important;
+  display: block !important;
+  font-size: 0.875rem !important;
+  opacity: 0.7 !important;
+  color: inherit !important;
+}
