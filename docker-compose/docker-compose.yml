@@ -35,9 +35,10 @@ services:
       - db:database
     extra_hosts:
       - 'host.docker.internal:host-gateway'
-    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && mkdir -p /app/lib/block_scout_web-9.3.2/priv/static/images && cp /tmp/blockscout_logo.svg /app/lib/block_scout_web-9.3.2/priv/static/images/blockscout_logo.svg 2>/dev/null || true && bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    command: sh -c "cp /app/config/config_helper.exs /app/releases/9.3.2/config_helper.exs 2>/dev/null || true && mkdir -p /app/lib/block_scout_web-9.3.2/priv/static/images && cp /tmp/blockscout_logo.svg /app/lib/block_scout_web-9.3.2/priv/static/images/blockscout_logo.svg 2>/dev/null || true && cp /tmp/blockscout_logo_small.svg /app/lib/block_scout_web-9.3.2/priv/static/images/blockscout_logo_small.svg 2>/dev/null || true && bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
     volumes:
       - "../apps/block_scout_web/assets/static/images/blockscout_logo.svg:/tmp/blockscout_logo.svg:ro"
+      - "../apps/block_scout_web/assets/static/images/blockscout_logo_small.svg:/tmp/blockscout_logo_small.svg:ro"
     environment:
       # Use host gateway IP so backend can reach Evmos on host (host.docker.internal often fails on Linux)
       ETHEREUM_JSONRPC_HTTP_URL: http://172.17.0.1:8540/
@@ -79,7 +80,7 @@ services:
     environment:
       # Full URL so entrypoint can download logo to /assets/configs/; client uses that path, not this URL
       NEXT_PUBLIC_NETWORK_LOGO: http://backend:4000/images/blockscout_logo.svg
-      NEXT_PUBLIC_NETWORK_ICON: http://backend:4000/images/blockscout_logo.svg
+      NEXT_PUBLIC_NETWORK_ICON: http://backend:4000/images/blockscout_logo_small.svg
 
   stats-db-init:
     extends:

@@ -55,7 +55,18 @@ server {
     }
     location = /network_icon.svg {
         set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo_small.svg;
+        proxy_set_header Host "$host";
+    }
+    # UI requests /assets/configs/*; frontend may 404 if entrypoint did not fetch logo — proxy to backend
+    location = /assets/configs/network_logo.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
         proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
+    }
+    location = /assets/configs/network_icon.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo_small.svg;
         proxy_set_header Host "$host";
     }
     
@@ -149,7 +160,17 @@ server {
     }
     location = /network_icon.svg {
         set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo_small.svg;
+        proxy_set_header Host "$host";
+    }
+    location = /assets/configs/network_logo.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
         proxy_pass $backend_upstream/images/blockscout_logo.svg;
+        proxy_set_header Host "$host";
+    }
+    location = /assets/configs/network_icon.svg {
+        set $backend_upstream ${BACK_PROXY_PASS};
+        proxy_pass $backend_upstream/images/blockscout_logo_small.svg;
         proxy_set_header Host "$host";
     }
     location = /custom.css {
