@@ -20,19 +20,19 @@ This section provides step-by-step instructions to run the QuarryChain Blockscou
 
 ### Step 1: Start QuarryChain Validators
 
-**Important:** The explorer requires the blockchain nodes to be running first.
+**Important:** The explorer expects `https://rpc.quarrychain.network/` to be reachable (public RPC). For a local dev chain, run validators and point RPC env vars at your node instead (see `docker-compose/docker-compose.yml`).
 
 ```bash
 cd ../evmos
 ./start-validators.sh
 ```
 
-Wait for Node 0 to be fully synced. You can check the logs:
+If you run your own nodes, wait until the RPC you configured is synced. Example for local logs:
 ```bash
 tail -f evmos/testnet-5validators/node0/node.log
 ```
 
-The explorer connects to Node 0 at `http://localhost:8540` (JSON-RPC endpoint).
+The explorer indexes the chain via the public JSON-RPC at `https://rpc.quarrychain.network/`.
 
 ### Step 2: Start Blockscout Explorer
 
@@ -44,7 +44,7 @@ cd blockscout
 ```
 
 **What this script does:**
-- Checks if Node 0 JSON-RPC is accessible at `http://localhost:8540`
+- Checks if JSON-RPC is accessible at `https://rpc.quarrychain.network/` (`eth_chainId`)
 - Starts Docker Compose services (PostgreSQL, Redis, Backend, Frontend, Nginx)
 - Configures connection to QuarryChain Node 0
 
@@ -95,8 +95,8 @@ docker compose down
 ### Configuration
 
 **Backend environment variables:** `docker-compose/envs/common-blockscout.env`
-- `ETHEREUM_JSONRPC_HTTP_URL`: `http://host.docker.internal:8540/`
-- `ETHEREUM_JSONRPC_WS_URL`: `ws://host.docker.internal:8640/`
+- `ETHEREUM_JSONRPC_HTTP_URL`: `https://rpc.quarrychain.network/`
+- `ETHEREUM_JSONRPC_WS_URL`: `wss://rpc.quarrychain.network/ws`
 - `CHAIN_ID`: `9001`
 
 **Frontend environment variables:** `docker-compose/envs/common-frontend.env`
@@ -111,7 +111,7 @@ docker compose down
 ### Troubleshooting
 
 **502 Bad Gateway:**
-- Ensure Node 0 is running: `curl http://localhost:8540`
+- Ensure RPC is up: `curl -sf -X POST https://rpc.quarrychain.network/ -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}'`
 - Check backend logs: `docker compose logs backend`
 - Verify `RELEASE_VERSION` matches in `docker-compose.yml` (currently `9.3.2`)
 

@@ -10,9 +10,11 @@ echo "Starting Quarrychain Explorer"
 echo "=========================================="
 echo ""
 
-# Check if Node 0 (Quarrychain) is running
-if ! curl -s http://localhost:8540 > /dev/null 2>&1; then
-    echo "Error: Quarrychain Node 0 JSON-RPC not accessible at http://localhost:8540"
+# Check public JSON-RPC (eth_chainId)
+if ! curl -sf -X POST https://rpc.quarrychain.network/ \
+    -H 'Content-Type: application/json' \
+    -d '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' > /dev/null 2>&1; then
+    echo "Error: QuarryChain JSON-RPC not accessible at https://rpc.quarrychain.network/"
     echo "Please start the nodes first with: cd ../evmos && ./start-validators.sh"
     exit 1
 fi
